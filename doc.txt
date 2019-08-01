@@ -1,0 +1,576 @@
+1 go开发环境搭建
+
+	系统：rhel6.9
+	go包: go1.12.5.linux-amd64.tar.gz
+
+	tar xvf go1.12.5.linux-amd64.tar.gz -C /usr/local
+
+	export PATH=$PATH:/usr/local/go/bin
+
+	运行 go
+	[ten@localhost datum]$ go
+	Go is a tool for managing Go source code.
+	Usage:
+	go <command> [arguments]
+    ...
+
+	环境搭建成功。
+
+
+2 帮助与文档
+
+	https://studygolang.com/pkgdoc  Golang标准库文档
+
+3  hello world : helloworld.go
+
+	package main
+	import "fmt"
+	func main() {
+		fmt.Println("hello world");
+	}
+
+	go run helloworld.go      类似python 解释器运行
+	go build helloworld.go    类似gcc编译出二进制文件，在运行。
+
+4 变量的声明 var.go
+	var      a       int       =    10
+    关键字   变量名  变量类型       变量的直
+
+    a := 10   功能同上，自动判断类型  var关键字可省略
+
+	fmt.Printf("a:%T\n", a); 判断类型
+
+	i, j := 10, 20  多重赋值 结果:i=10,j=20
+
+	i, _ := 10, 20  匿名赋值  i=10  20被丢掉	配合函数返回值使用
+
+5 常量  const.go
+	变量: 运行时，可以改变的量，声明时用var
+	常量: 运行时，不可以改变的量，声明时用const
+
+	const   a        int   =   10
+	关键字  变量名   类型      变量值
+
+	const   a    =  10     自动推导类型  const不可以省略  且不许要使用 := 
+	关键字
+
+	常量声明时必须初始化
+
+6 多个变量或常量定义  several.go
+	var (  多个变量同时声明，也可以同时赋值, 且可以自动推导类型
+		a int = 1
+		b float = 3.14
+	)
+
+	const (
+		a = 10
+		b = 3.14
+	)
+
+7 iota枚举  iota.go
+	iota常量自动生成器，每个一行，自动累加1
+	iota给常量赋
+
+	只有换行的iota才会自动累加1
+
+8 bool类型  bool.go
+	var     a        bool       = true
+	关键字  变量名   变量类型
+
+	a := true   自动推导类型
+	var a = true  自动推导类型
+
+	如果只声明未初始化，则默认为false，既0.
+
+9 float 浮点型  float.go
+	var f1 float32
+	fmt.Printf("%g\n", f1)
+
+	自动推导出来的类型一般都是float64
+
+10 字符类型 char.go
+	var       char    byte
+					  类型
+
+11 字符串类型 string.go
+	var str1 string
+	str1 = "123456"
+
+	len() 内建函数，获得字符串长度，类似strlen，不算结尾的'\0'
+
+12 complex 复数类型 complex.go
+	var t complex128
+	t = 2.1 + 3.14i
+
+	获取实部 real(t)
+	获得虚部 imag(t)
+
+13 格式化输出
+
+	
+14 变量的输入 scan.go
+	fmt.Scan(&a)
+	fmt.Scanf("%d", &a)
+
+	类似 c语言的scanf
+
+15 类型转换 tconver.go
+	bool 不能兼容 int    对bool来说  0 == false, ~0 == true
+
+	兼容类型之间的转换:  char c = 'a',     int(c)为其转换的方法
+	
+16 if   if.go
+	go的if相对于c语言的if，不需要()包含判断表达式，但一定需要{}来包含分支执行语句	
+
+	if else if 和C语言一样
+
+17 switch switch.go
+	break：在switch的case内，不需要写break，go语言自带break，C语言内需要break跳出switch。
+	fallthrough ：相当与C语言中不带break，在对应的case之后的case无条件执行
+
+18 for  for.go
+	for 初始条件; 判断条件; 条件变化
+	和C语言的for几乎一样，更像c99的for
+
+19 range range.go
+	把range看作一个返回两个直的函数，第一个是位置，第二个是值
+
+20 break与continue的区别 bc.go
+	go的break&continue和C语言的一样
+
+21 goto goto.go
+	和C的goto一样
+
+
+22 无参数无返回值函数  func1.go
+	和C语言的函数一样
+    C：
+		void test(void);
+	go:
+		func test()
+
+23 有参数无返回值函数  func2.go
+	func test(a int, b int)
+    func test(a, b int) 和上面的一样
+	go语言不支持函数重载
+
+24 不定参数列表  func3.go
+   参数个数不确定, 类似C语言，printf()
+	func test(args      ...int)
+			  参数      int型的不定参数列表
+
+	固定参数函数，一定传对应个数的参数。
+	不定参数函数，可以不传参数。
+				  如果有定长参数，必须写在不定参数列表前面，类型可以和不定参数类型不同。
+
+	不定参数作为实参传递时，可以指定传递参数,但必须是连续的。
+
+25 无参数一个返回值的函数 func4.go
+	func test()(int) {}    返回值的类型在参数列表和函数体之间表明   实例中的int表示返回一个int
+
+26 多个返回值的函数  func5.go
+	return后添加要返回的变量，用逗号分开变量，变量类型可以不同。
+	调用函数时，接收函数返回值的变量个数需与返回值 个数相同，可用匿名变量可以用来站位。
+
+27 有参数有返回值的函数  func6.go
+	没什么特别的
+
+28 普通函数的调用流程  func7.go
+	和C一样
+
+29 递归函数 func8.go
+	和C一样
+
+30 函数类型  functype.go
+	类似C语言的函数指针
+
+31 回调函数 funccallback.go
+
+32 匿名函数和闭包 bbao1.go
+	闭包：一个函数“捕获”了和它在同一作用域的变量和常量。这就意味着不管闭包在什么地方被调用，它都可以使用这些常量和变量，它不关心这些变量和常量超出了作用域，所以只有闭包还在使用他们，他们还会存在。
+	匿名函数定义在其它函数内
+
+33 闭包捕获外部变量的特点 bbao2.go
+	闭包内与外部变量同名的变量是相同的变量，而不是像C那样，在内部函数在创建个局部变量.
+
+34 闭包的特点
+	func test01() func() int {
+	    var x int
+    	return func() int {
+       		x++;
+        	return x*x
+    	}
+	}
+	func main() {
+    	test02()
+    	fmt.Printf("%d\n", test02())
+
+    	f := test01()
+    	fmt.Printf("%d\n", f())
+    	fmt.Printf("%d\n", f())
+    	//虽然x为test01的局部变量，但是被func()闭包函数使用，则它不会在最后一次func调用完前被释放掉，也不会被重新初始化
+	}
+
+35 defer:延迟调用 defer1.go
+	被defer修饰的语句会在main函数结束前才被调用
+
+	多个defer执行顺序类似栈,后进先出，就算程序遇到崩溃时，defer修饰的语句也会在程序退出时执行.吊呀。
+	defer类似在main的执行逻辑上注册一个入口点，将这些入口点压栈，和非defer的代码段逻辑上排序，也就是   main-> {~defer code|defer3|defer2|defer} 当某个代码段崩溃，main会跳到下一个代码段的入口进行执行。(非官方理解)
+	就算在函数内使用defer，效果相同，在调用顺序上，defer的语句被压栈。
+
+36 defer和匿名函数结合使用
+	被defer修饰的匿名函数，在main结束前就会被调用，且如果匿名函数如果传入实参，则实参是在代码顺序时的值。
+	code:
+		a := 10
+		defer Println("1.a: ", a)
+		a = 20
+		Println("2.a: ", a)
+	out
+		2.a: 20 
+		1.a: 10  就算后执行，a还是语句上下文时的值.
+
+37 获得命令行参数
+	C main(int argc, char** argv)
+
+	go的命令行参数都是以字符串传入的
+	使用os包，os.Args相当与char** argv
+	len()可以获取长度，range可以遍历
+
+38 局部变量 全局变量
+	局部变量和C一样
+	全局变量不能使用自动推导, 正常定义可以初始化
+
+39 不同作用域的同名变量
+	在不同域的同名变量使用就近原则,就近的域内的同名变量。和C很像
+
+40 包的导入
+	import . "fmt"  多一个点，可以在调用包内函数时可以不指定包名，如果相同函数名在不同包时使用次方法可能会出错
+	这个点也可以是 其它字符串，相当于给 "fmt" 换个名字
+	import _ "fmt" 相当于忽略这个包
+
+41 工程管理:同级目录  importpkg1/ mymath.go main.go
+	1.多个源文件放在相同目录下 src/
+	2.设置GOPATH环境变量
+	mymath.go 必须package main,和main.go的一样,因为两个文件在相同目录
+
+42 工程管理:不同级目录 importpkg2/ src/cale/calc.go src/main.go
+	对于不同级包的运行和编译必须设置GOPATH环境变量
+	1,不同目录，不同包名字(package)
+	2,调用不同包里的函数格式： 包名.函数名()
+	3,调用别的包的函数，如果这个函数名如果是小写，无法让别人调用，首字母为大写是可以被被人调用到
+
+	export GOPATH=/xxx/xxx/importpkg2/
+
+	importpkg2/src/cale/calc.go:
+	package calc
+	func Add(a, b int) int ;
+
+43 main函数和init函数
+	package  main                 calc
+	import "calc"                 init()
+
+	main函数内导入了calc包，则程序逻辑上是先去calc包内执行calc的init函数.
+
+	import _ "calc" 则是为了只调用calc内的init函数，其它都不允许调用.
+
+44 go_intall命令
+
+45 指针基本操作 ptr1.go
+	和C一样把
+
+46 new函数
+	和malloc一样，不是给大小，给的是类型
+	var a *int = new(int)
+
+47 指针和函数，指针参数 ptr2.go
+	和C一样
+
+48 数组 arr1.go
+	var a [5]int = [5]int{3,2,4,1,5}   声明初始化
+	b := [5]int{3,2,4,1,5}   自动推导方式
+	c := [5]int{2:10, 4:20}   --> {0,0,10,0,20}}
+
+49 数组做函数参数 arr2.go
+	数组做函数参数是值传递,实参数组的每个元素给型参拷贝一份
+
+50 数组指针做函数参数 arr3.go
+	传指针实际就是将main内的内存地址传给参数，所以参数内的修改会影响到main的变量
+
+51 切片 slice1.go
+	array := [...]int{1,2,3,0,0,0}
+	slice : = array[0:3:5]
+					[low:high:max]       [起始：终点：长度]
+	长度 len = high - low
+	容量 cap = max - low
+
+	切片是数组的截取，指出起始点，结束点，容量, 切片不是数组，是引用了数组的一段
+
+52 数组与切片的区别 slice2.go
+	数组的[]内指定数组的长度，是个固定的常量，数组不能改变长度，len和cap永远是固定的
+	切片的[]内为空或...，切片的长度和容量可以不固定, 切片末尾可以追加一个成员, slice = append(slice, val)
+	切片不一定需要依赖数组
+	切片对元素的操作和数组的是一样的
+
+53 切片的创建方法  slice3.go
+	1,自动推导  s1 := []int{1,2,3}
+	2,借助make函数  s2 := make([]int, 5, 10)    make( type, len, cap)   //cap可以不写，没指定cap则容量和长度相同
+
+54 append的使用 append1.go
+	在切片末尾添加新元素，且切片扩容是增加当前大小的一倍，和C++的动态数组相似
+
+55 copy函数的使用  copy.go
+	对应位置的覆盖而已, 有多少拷多少。
+
+56 map(映射，字典),key-val对应集  map1.go
+	键值唯一
+	map[keytype]valtype
+	基本使用:
+		var m1 map[int]string
+		m2 := make(map[int]string)
+		m3 := make(map[int]string, 10)
+		m4 := map[int]string{0:"str0", 1:"str1", 2:"str2"}
+
+57 map赋值 map2.go
+	C++的map一样
+
+58 map遍历  map3.go
+	range 即可
+
+59 map删除元素 map3.go
+	delete(m, 1) 删除key为1的内容
+
+60 map做参数 map4.go
+	map做参数传的的map的地址，array做参数传的是array的值
+
+61 struct结构体 struct1.go
+	初始化
+	type      structname   struct {
+	关键字    结构体名     关键字
+		age int
+	}
+	var s1 structname = structname{age:1}
+
+62 struct结构体 指针变量的初始化 struct2.go
+	使用结构体名称赋值，不需要用new分配空间
+
+63 使用结构体的成员 struct3.go
+	和C一样，使用结构体名称直接声明变量
+
+	指针类型的结构体赋值
+	结构体指针使用成员 s1.id 和(*s1).id是相同的
+
+64 结构体的比较 struct4.go
+	只能用等于和不等与，不能用大于小于
+	同类型的结构体是可以相互赋值的
+
+65 结构体做函数参数  struct5.go
+	函数内有型参地址接收参数值，修改的是函数内变量
+	传地址到函数内，函数修改的是地址内的值。
+
+66 面向对象编程
+	1，匿名组合  oo1.go
+		通过包含已知struct，其当前struct包含已知struct的字段
+	2, 匿名字段的初始化 oo1.go
+	3. 匿名字段的成员的操作 oo1.go
+		虽然是其它结构体A内的字段，但既然A被包含在了B内，直接可以当作是B的字段。
+	4, 同名字段 oo2.go
+		如果A中和B内有相同字段,B包含A，如果像操作A中的同名字段，  B.A.name
+
+	5，非结构体匿名字段  oo3.go
+	6, 结构体指针的匿名字段  oo4.go
+
+67 方法  function1.go
+	本质是函数,区别与函数是它要绑定特定类型
+	传统函数 func xxx(){}
+	匿名函数 func(){}
+	方法     func (xxx type) xxx(){}   (xxx type)叫做reciver
+
+68 结构体类型绑定一个方法 function2.go
+
+方法使用的总结:
+	func (xxx     type) funcname(parameters) {}
+		  变量名  变量类型
+		  接收者  接收者类型
+	接收者可以是基础类型，基础类型或其指针，结构体类型或其指针， 接收者类型本身必须不能是指针，但这个类型的指针是可以的。
+	只要接接收者不一样，同名函数也不会冲同，相当于两个类的函数。
+
+	不支持重载
+
+69 值语义和引用传递
+	方法的接收者如果是类型，而不是指针，那么方法内修改接收者的成员只是在修改方法类的临时变量，是指针则修改真实接收者的成员.
+
+
+70 指针类型和普通类型的方法集 function3.go
+	类似class的成员函数
+
+71 方法的集成  71.go
+	如果一个类型A被另一个类型B做匿名成员，那么B就继承了A的方法。
+
+72 方法的重写 71.go
+	A的func1()被B继承，B可以重写func1(),调用A的func1(): B.A.func1()
+
+73 传递值 73.go
+	方法指针，隐藏实体接收者
+
+74 方法表达式 74.go
+	方法表达式：获取类型的方法(可以没有类型的实体变量)， 将一个类型的变量给获取的方法。
+
+75 接口 75.go
+	type name interface {
+		func1()
+	}
+	只在interface内定义函数，不实现内容
+
+	接口类似一个通用类型里包含函数指针，给这个通用类型赋值类型A，调用函数指针，即可调用到A的函数
+
+	接口的结成类似与子类和父类的关系，
+
+76 多态的表现 
+	func1(interface i)   i是接口类型，但实际调用时是不同的(已经实现接口内函数)的类型,调用func时会根据类型不同，表现不同的反映
+
+77 接口转化 77.go
+	类似接口的包含关系， 在实现func1(interface i)  被包含的接口可当参数时，包含的它的那个接口也可以，反过来不行
+
+78 空接口  78.go
+	万能类型,可以保存任意类型   []interface{}
+	如75.go，空接口可以指向任意类型的变量，即任何类型都实现了空接口。  类似void类型的指针指向任意类型变量的内存空间。
+
+79 error 接口 error1.go
+
+80 error接口的应用 error2.go
+
+81 panic  panic.go
+	显示调用panic，使得程序主动崩溃退出 
+
+82 recover  recover.go
+	可以跳过崩溃继续执行程序。
+
+83 字符串操作基本函数 str1.go
+	1, contains  (v1, v2)    v1内是否包含v2
+	2，join
+	3，index     (v1, v2)    v1内v2在哪里，没有返回-1
+	4，repeat    重复
+	5，replace   替换
+	6，split     分割
+	7，Trim      去掉字符串头尾指定的字符串
+	8，Fields    针对字符串内的空格，按空格进行分割保存到切片，并将空格去掉。
+    fmt.Println(strings.Contains("abcdefghijklmn", "ghi")) // Contains
+
+    s := []string{"abc", "def", "ghi"} //join 仿佛第一个参数只能用slice，类型不限。
+    fmt.Println(strings.Join(s,","))
+
+    fmt.Println(strings.Index("abcdefghijklmn", "ghi"))  // Index  字符串子串搜索
+
+    fmt.Println(strings.Repeat("abc", 5))  //第一个参数  要重复的字符串，第二个参数 次数
+
+    fmt.Println(strings.Replace("abcabcdefg", "abc","fff", 3))   // src, old, new, times  times:src内times个old被替换为new
+
+    fmt.Println(strings.Split("abc,def,ghig,klm,ede", ","))  //将src中 ，分割后保存到切片内，并返回
+
+    fmt.Println(strings.Trim("abcdefga", "a")) //两头查找指定字符串，然后去掉
+
+    fmt.Println(strings.Fields("ab cde fg  hig  hl  mn")) // 类似split，但针对空格分割，且把空格去掉。
+
+84 字符串转化  str2.go
+	append 追加在字符串后
+	
+
+85 正则表达式
+
+86 json 
+	json 是一种数据格式，用在CS模式的数据交换
+
+87 通过结构体生成json mkjson.go
+	json.Marshal(slice)
+
+88 文件操作 file1.go
+	Create(name string) (file *File, err Error)
+	Open(name string) (file *File, err Error)
+	func (file *File)Write(b []byte) (n int, err Error)
+	func (file *File)WriteAt(b []byte, off int64) (n int, err Error)
+	func (file *File)WriteString(s string) (ret int, err Error)
+
+89 文件的读写
+	copyfile.go
+
+
+
+90 并行与比发的区别
+	并行：多任务分别在多cpu内同时连续执行，不被调度切换
+	并发：单cpu执行多个任务，通过任务调度切换，用户觉得是同时运行，实则是串行。
+
+91 goroutine 
+	比线程更小的一个任务单位. 资源更少，更高效。
+	go funcname() 即可, 但此语句必须可以被运行到。
+
+92 主线程先退出 92.go
+	主线程退出，则子线程同样退出。
+
+93 主线程退出太快，导致子线程未被调用
+
+94 runtime 
+	1. Gosched   gosched.go  使当前线程让出时间片
+	2, Goexit    goexit.go
+	3, GOMAXPROCS  指定并行计算的cpu核数的最大值，并返回之前的值
+
+95 channel
+	channel:通信传送数据
+	创建：
+		make(chan    type)
+			 关键字  类型
+
+96 channel例子  channel.go
+	ch := make(chan int)	 //创建channel
+	<-ch       读取channel
+	ch <- 11    写入11到channel
+
+97 channel无缓冲区 channel3.go
+	协程B在读取channel时，如果channel没有数据，则协程B阻塞，等待channel被写入数据。
+	协程1写入channel，在channel内的数据被读取之前，协程A也是阻塞的。即，只有协程A写入channel，没有其它协程读取channel，协程A也是会处于阻塞的。
+
+98 channel有缓冲区 channel4.go
+	创建一个有缓冲区的channel，缓冲区为5
+	则协程A在写入channel时，如果len(ch)没有到达5，则协程A不会被阻塞，如果到达了缓冲极限，则需要写入channel的协程A等待其它协程读取channel，以便减少channel内的数据，使得协程A变成非阻塞状态。
+
+99 关闭channel channel5.go
+	close(ch)后，被channel阻塞的协程会收到false。关闭的channel是不能被写入的，会报错。但是channel还是可以读的。
+
+100 使用range遍历channel  channel6.go
+	range在遍历channel时，如果channel内无数据，则range会被阻塞住，并不是像遍历数组之类的结构体一样，因为channel的读取是被阻塞的。
+	但当channel被关闭时，range就会知道遍历到了结尾，所以遍历结束。
+
+101 单项channel channel7.go
+	var ch1 chan int 双向int型channel
+	var ch2 chan<- int 单项写int型channel
+	var ch3 <-chan int 单项读int型channel
+
+	var ch = make(chan int)  创建channel ，双向的
+	var chwrite chan<- int = ch  chwrite是单向只写的
+	var chread  <-chan int = ch  chread是单向只读的
+
+	虽然chwrite和chread是新声明的channel但它们都指向了ch，使用chwrite和chread时这两个是只读只写的，但ch依然是双向的。
+
+102 单向channel的应用 channel8.go
+
+203 定时器 timer
+	timer: 只提醒一次
+
+	1.timer.go 
+	2.使用timer实现延迟a timer2.go 三种延迟实现
+	3.定时器的停止 timer3.go  
+	4.定时器的重置 timer.Rest()  timer4.go 测试得到结论：定时器设置开始之后线程内依然可以执行其它语句，也可以添加延迟操作，都不会影响timer像timer.C内写入数据.
+
+204 定时器 ticker.go
+	ticker:循环提醒
+
+205 select select1.go
+	select 类似switch，使得channel可以并行阻塞等待。
+
+206 select实现超时机制
+	select2.go
+
+
+207 tcp服务器  tcp/
+
+208 os.Stat获得文件属性
+	
